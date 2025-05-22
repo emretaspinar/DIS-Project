@@ -22,23 +22,28 @@ def init_db():
     cur.execute('''CREATE TABLE IF NOT EXISTS matches_played (round INTEGER, result TEXT, opponent TEXT, team_name TEXT, PRIMARY KEY(round, team_name), FOREIGN KEY(team_name) REFERENCES teams(team_name))''')
     conn.commit()
 
-    f = open(r'MatchesDataset.csv', 'r')
-    match_data = pd.read_csv(f, delimiter=';')
-    f.close()
+    with open('MatchesDataset.csv', encoding = 'UTF-8') as f:
+        match_data = pd.read_csv(f, delimiter=';')
+    
 
-    f = open(r'PlayersDataset.csv', 'r')
-    player_data = pd.read_csv(f, delimiter=';')
-    f.close()
+    with open('PlayersDataset.csv', encoding = 'UTF-8') as f:
+        player_data = pd.read_csv(f, delimiter=';')
 
-    for row in player_data.to_dict('rows'):
+    for value in player_data['Team'].unique():  
+        team_name_query = """
+        INSERT INTO teams(team_name, points, wins, losses, draws) VALUES('%s', NULL, NULL, NULL, NULL);
+        """ % (value)
+        cur.execute(team_name_query)
+
+    for row in player_data.to_dict('records'):
         player_data_query = """
         INSERT INTO players(pid, player_name, nation, age, team_name) VALUES(DEFAULT, '%s', '%s', %i, '%s');
         """ % (row['Player'], row['Nation'], row['Age'], row['Team'])
         cur.execute(player_data_query)
-    
-    for row in match_data.to_dict('rows'):
+
+    for row in match_data.to_dict('records'):
         match_data_query = """
-        INSERT INTO matches(round, result, opponent, team_name) VALUES(DEFAULT, '%i', '%s', '%s', '%s');
+        INSERT INTO matches_played(round, result, opponent, team_name) VALUES('%i', '%s', '%s', '%s');
         """ % (row['Round'], row['Result'], row['Opponent'], row['Team'])
         cur.execute(match_data_query)
     
