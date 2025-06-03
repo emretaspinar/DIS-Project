@@ -1,14 +1,14 @@
-from flask import Flask
+from flask import Flask, redirect
 from database import init_db
-from controllers import todo, category
+from controllers import team, player
 
 init_db()
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+def home():
+    return redirect('/team')
 
-app.register_blueprint(todo.bp)
-app.register_blueprint(category.bp)
+app.register_blueprint(team.bp)
+app.register_blueprint(player.bp)

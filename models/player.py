@@ -8,6 +8,18 @@ class Player:
         self.nation = nation
         self.age = age
         self.team_name = team_name
+
+def list_players(team_name: str):
+    conn = db_connection()
+    cur = conn.cursor()
+    cur.execute("""SELECT pid, player_name, nation, age, team_name FROM players WHERE team_name = '%s';""" % team_name)
+    db_players = cur.fetchall()
+    players = []
+    for db_player in db_players:
+        players.append(Player(db_player[0], db_player[1], db_player[2], db_player[3], db_player[4]))
+    conn.close()
+    return players
+
 '''
 def list_todos():
     conn = db_connection()

@@ -1,3 +1,4 @@
+import pandas as pd
 from database import db_connection
 
 class Team:
@@ -7,6 +8,18 @@ class Team:
         self.wins = wins
         self.losses = losses
         self.draws = draws
+
+def list_teams():
+    conn = db_connection()
+    cur = conn.cursor()
+    cur.execute('SELECT team_name, points, wins, losses, draws FROM teams')
+    db_teams = cur.fetchall()
+    teams = []
+    for db_team in db_teams:
+        teams.append(Team(db_team[0], db_team[1], db_team[2], db_team[3], db_team[4]))
+    conn.close()
+    return teams
+
 '''
 def list_todos():
     conn = db_connection()
