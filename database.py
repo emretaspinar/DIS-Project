@@ -39,7 +39,7 @@ def init_db():
         cur.execute("""SELECT 1 FROM players WHERE player_name = '%s' AND nation = '%s' AND age = %i AND team_name = '%s' """ % (record['Player'], record['Nation'], record['Age'], record['Team']))
         if cur.fetchone() is None:
             player_data_query = """
-            INSERT INTO players(pid, player_name, nation, age, team_name) VALUES(DEFAULT, '%s', '%s', %i, '%s');
+            INSERT INTO players(pid, player_name, nation, age, team_name) VALUES(DEFAULT, '%s', '%s', %i, '%s') ON CONFLICT DO NOTHING;
             """ % (record['Player'], record['Nation'], record['Age'], record['Team'])
             cur.execute(player_data_query)
 
@@ -49,8 +49,34 @@ def init_db():
         """ % (record['Round'], record['Result'], record['Opponent'], record['Team'])
         cur.execute(match_data_query)
     
-
-
+    cur.execute("""SELECT team_name FROM teams""")
+    team_names = pd.DataFrame(cur.fetchall(), columns=['team_name'])
+    for record in team_names.to_dict('records'):
+        team_results_query = """
+                             UPDATE teams 
+                             SET 
+                             wins = 
+                             (SELECT COUNT(matches_played.result)
+                             FROM matches_played
+                             WHERE matches_played.result = 'W' AND matches_played.team_name = '%s'),
+                             losses = 
+                             (SELECT COUNT(matches_played.result)
+                             FROM matches_played
+                             WHERE matches_played.result = 'L' AND matches_played.team_name = '%s'),
+                             draws = 
+                             (SELECT COUNT(matches_played.result)
+                             FROM matches_played
+                             WHERE matches_played.result = 'D' AND matches_played.team_name = '%s')
+                             WHERE teams.team_name = '%s'; """ % (record['team_name'], record['team_name'], record['team_name'], record['team_name'])
+        cur.execute(team_results_query)
+        team_points_query = """
+                            UPDATE teams 
+                            SET 
+                            points =  
+                            3 * (SELECT wins FROM teams WHERE teams.team_name = '%s') + 
+                            (SELECT draws FROM teams WHERE teams.team_name = '%s')
+                            WHERE teams.team_name = '%s';""" % (record['team_name'], record['team_name'], record['team_name'])
+        cur.execute(team_points_query)
 
     '''
     categories = ['DIS', 'House chores']
