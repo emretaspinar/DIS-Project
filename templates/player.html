@@ -4,13 +4,28 @@
 
 <table>
     <tr>
-        <th>TEAMS</th>
-    </tr>
+        <th>Player Names</th>
+        <th>Nationality</th>
+        <th>POSITION</th>
+        <th>Matches</th>
+        <th>Starts</th>
+        <th>90s</th>
+        <th>Minutes</th>
+        <th>Goals</th>
+        <th>Asists</th>
+        <th>Goals and Assists</th>
     {% for player in players %}
         <tr>
-        <td> 
-            {{ player.player_name }}
-        </td>
+            <td>{{ player.player_name }}</td>
+            <td>{{ player.nation }}</td>
+            <td>{{ player.pos }}</td>
+            <td>{{ player.mp }}</td>
+            <td>{{ player.starts }}</td>
+            <td>{{ player.nineties }}</td>
+            <td>{{ player.min }}</td>
+            <td>{{ player.gls }}</td>
+            <td>{{ player.ast }}</td>
+            <td>{{ player.g_a }}</td>
         </tr>
     {% endfor %}
 </table>

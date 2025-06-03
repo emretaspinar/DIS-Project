@@ -4,15 +4,25 @@
 <table>
     <tr>
         <th>TEAMS</th>
+        <th>Games Played</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Draws</th>
+        <th>Points</th>
     </tr>
     {% for team in teams %}
         <tr>
-        <td> 
-            <form method="POST" action="/player">
-                <input type="hidden" name="team_name" value="{{ team.team_name }}">
-                <button type="submit">{{ team.team_name }}</button>
-            </form>
-        </td>
+            <td> 
+                <form method="POST" action="/player">
+                    <input type="hidden" name="team_name" value="{{ team.team_name }}">
+                    <button type="submit">{{ team.team_name }}</button>
+                </form>
+            </td>
+            <td>38</td>
+            <td>{{ team.wins }}</td>
+            <td>{{ team.losses }}</td>
+            <td>{{ team.draws }}</td>
+            <td>{{ team.points }}</td>
         </tr>
     {% endfor %}
 </table>
