@@ -2,21 +2,29 @@ from database import db_connection
 from models.team import Team
 
 class Player:
-    def __init__(self, pid, player_name, nation, age, team_name):
+    def __init__(self, pid, player_name, nation, pos, age, team_name, mp, starts, nineties, min, gls, ast, g_a,):
         self.pid = pid
         self.player_name = player_name
         self.nation = nation
+        self.pos = pos
         self.age = age
         self.team_name = team_name
+        self.mp = mp
+        self.starts = starts
+        self.nineties = nineties
+        self.min = min
+        self.gls = gls
+        self.ast = ast
+        self.g_a = g_a
 
 def list_players(team_name: str):
     conn = db_connection()
     cur = conn.cursor()
-    cur.execute("""SELECT pid, player_name, nation, age, team_name FROM players WHERE team_name = '%s';""" % team_name)
+    cur.execute("""SELECT pid, player_name, nation, pos, age, team_name, mp, starts, nineties, min, gls, ast, g_a FROM players WHERE team_name = '%s';""" % team_name)
     db_players = cur.fetchall()
     players = []
     for db_player in db_players:
-        players.append(Player(db_player[0], db_player[1], db_player[2], db_player[3], db_player[4]))
+        players.append(Player(*db_player))
     conn.close()
     return players
 
