@@ -5,7 +5,7 @@ import pandas as pd
 # Try to get from system enviroment variable
 # Set your Postgres user and password as second arguments of these two next function calls
 user = os.environ.get('PGUSER', 'postgres')
-password = os.environ.get('PGPASSWORD', '123')
+password = os.environ.get('PGPASSWORD', 'PostGaius')
 host = os.environ.get('HOST', '127.0.0.1')
 
 def db_connection():
@@ -37,9 +37,9 @@ def init_db():
 
     for record in player_data.to_dict('records'):
         cur.execute("""SELECT 1 FROM players WHERE player_name = '%s' AND nation = '%s' AND age = %i AND team_name = '%s' """ % (record['Player'], record['Nation'], record['Age'], record['Team']))
-        if cur.fetchone is None:
+        if cur.fetchone() is None:
             player_data_query = """
-            INSERT INTO players(pid, player_name, nation, age, team_name) VALUES(DEFAULT, '%s', '%s', %i, '%s') ON CONFLICT DO NOTHING;
+            INSERT INTO players(pid, player_name, nation, age, team_name) VALUES(DEFAULT, '%s', '%s', %i, '%s');
             """ % (record['Player'], record['Nation'], record['Age'], record['Team'])
             cur.execute(player_data_query)
 
