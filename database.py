@@ -5,11 +5,11 @@ import pandas as pd
 # Try to get from system enviroment variable
 # Set your Postgres user and password as second arguments of these two next function calls
 user = os.environ.get('PGUSER', 'postgres')
-password = os.environ.get('PGPASSWORD', '2003')
+password = os.environ.get('PGPASSWORD', '123')
 host = os.environ.get('HOST', '127.0.0.1')
 
 def db_connection():
-    db = "dbname='EPL' user=" + user + " host=" + host + " password =" + password + " port = 5434"
+    db = "dbname='EPL' user=" + user + " host=" + host + " password =" + password # + " port = 5434"
     conn = psycopg2.connect(db)
 
     return conn
@@ -18,7 +18,7 @@ def init_db():
     conn = db_connection()
     cur = conn.cursor()
     cur.execute('''CREATE TABLE IF NOT EXISTS teams (team_name TEXT PRIMARY KEY, points INTEGER, wins INTEGER, losses INTEGER, draws INTEGER)''')
-    cur.execute('DROP TABLE IF EXISTS players CASCADE;')
+    #cur.execute('DROP TABLE IF EXISTS players CASCADE;')
     cur.execute('''CREATE TABLE IF NOT EXISTS players (pid SERIAL PRIMARY KEY, player_name TEXT, nation TEXT, pos TEXT, age INTEGER, team_name TEXT, mp INTEGER, starts INTEGER, nineties FLOAT, min INTEGER, gls INTEGER, ast INTEGER, g_a INTEGER, FOREIGN KEY(team_name) REFERENCES teams(team_name))''')
     cur.execute('''CREATE TABLE IF NOT EXISTS matches_played (round INTEGER, result TEXT, opponent TEXT, team_name TEXT, PRIMARY KEY(round, team_name), FOREIGN KEY(team_name) REFERENCES teams(team_name))''')
     conn.commit()
