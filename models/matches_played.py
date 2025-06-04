@@ -1,12 +1,25 @@
 from database import db_connection
 from models.team import Team
 
-class Todo:
+class Matches_played:
     def __init__(self, round, result, opponent, team_name):
         self.round = round
         self.result = result
         self.opponent = opponent
         self.team_name = team_name
+
+def list_matches(team_name: str):
+    conn = db_connection()
+    cur = conn.cursor()
+    cur.execute("""SELECT round, result, opponent, team_name FROM matches_played WHERE team_name = '%s';""" % team_name)
+    db_matches = cur.fetchall()
+    matches = []
+    for db_match in db_matches:
+        matches.append(Matches_played(*db_match))
+    conn.close()
+    return matches
+
+
 '''
 def list_todos():
     conn = db_connection()

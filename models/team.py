@@ -10,7 +10,7 @@ class Team:
         self.losses = losses
         self.draws = draws
 
-def list_teams(search):
+def list_teams(search=''):
     regular_expression = re.compile(r"\'|\"|;|\\")
     if regular_expression.search(search):
         search=''
@@ -20,7 +20,7 @@ def list_teams(search):
     db_teams = cur.fetchall()
     teams = []
     for db_team in db_teams:
-        teams.append(Team(db_team[0], db_team[1], db_team[2], db_team[3], db_team[4]))
+        teams.append(Team(*db_team))
     conn.close()
     return teams
 
