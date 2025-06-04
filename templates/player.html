@@ -1,6 +1,14 @@
 <!doctype html>
 <title>Players:</title>
 
+<form method="GET" action="/team">
+    <button type="submit">Home</button>
+</form>
+
+<form method="POST" action="/matches_played">
+    <input type="hidden" name="team_name" value="{{ players[0].team_name }}">
+    <button type="submit">Matches</button>
+</form>
 
 <table>
     <tr>

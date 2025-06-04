@@ -1,26 +1,27 @@
 <!doctype html>
-<title>Todo:</title>
+<title>Matches played:</title>
 
-<a href="{{ url_for('category.categories') }}" class="register-link">Categories</a>
+<form method="GET" action="/matches_played">
+    <button type="submit">Home</button>
+</form>
 
-<form method="POST" action="/todo">
-    <input type="text" name="new_todo" placeholder="Add another todo here" class="form-input" required>
-    Category<SELECT name="category_todo">
-    {% for category in categories %}
-        <OPTION value={{category.id}}>{{category.name}}</option>
-    {% endfor %}
-    </SELECT>
-    <input type="submit" value="Add" class="btn">
+<form method="POST" action="/player">
+    <input type="hidden" name="team_name" value="{{ matches_played[0].team_name }}">
+    <button type="submit">Players</button>
 </form>
 
 <table>
     <tr>
-        <th>TODO</th>
-        <th>Category</th>
+        <th>Matches</th>
+        <th>Round</th>
+        <th>Opponent</th>
+        <th>Result</th>
     </tr>
-    {% for todo in todos %}
+    {% for match in matches_played %}
         <tr>
-        <td>{{ todo.text }}</td> <td>{{ todo.category.name }}</td>
+            <td>{{ match.round }}</td>
+            <td>{{ match.opponent }}</td>
+            <td>{{ match.result }}</td>
         </tr>
     {% endfor %}
 </table>

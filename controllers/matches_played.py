@@ -1,19 +1,14 @@
-from flask import Blueprint, render_template, request
-from models.matches_played import *
+from flask import Blueprint, render_template, request, redirect
+from models.matches_played import list_matches
 
-"""
-bp = Blueprint('todo', __name__, url_prefix='/')
+bp = Blueprint('matches_played', __name__, url_prefix='/')
 
-@bp.route('/todo', methods=['GET', 'POST'])
-def todos():
+@bp.route('/matches_played', methods=['GET', 'POST'])
+def matches_played():
     if request.method == 'POST':
-        todo_text = request.form['new_todo']
-        category_id = request.form['category_todo']
-        insert_todo(todo_text, category_id)
-
-    categories = list_categories()
-
-    todos = list_todos()
-
-    return render_template('todo.html', todos=todos, categories=categories)
-"""
+        team_name = request.form['team_name']
+        print(team_name)
+        matches_played = list_matches(team_name)
+        return render_template('matches_played.html', matches_played=matches_played)
+    else:
+        return redirect('/team')
