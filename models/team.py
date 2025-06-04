@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 from database import db_connection
 
 class Team:
@@ -9,10 +10,13 @@ class Team:
         self.losses = losses
         self.draws = draws
 
-def list_teams():
+def list_teams(search):
+    regular_expression = re.compile(r"\'|\"|;|\\")
+    if regular_expression.search(search):
+        search=''
     conn = db_connection()
     cur = conn.cursor()
-    cur.execute('SELECT team_name, points, wins, losses, draws FROM teams')
+    cur.execute("""SELECT team_name, points, wins, losses, draws FROM teams WHERE teams.team_name ILIKE '%s%%' ORDER BY points DESC;""" % search)
     db_teams = cur.fetchall()
     teams = []
     for db_team in db_teams:
