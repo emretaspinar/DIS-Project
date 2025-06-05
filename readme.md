@@ -1,7 +1,7 @@
-## How to run
+# How to run
 1. use docker-compose-up in the directory with the Dockerfile (if you haven't moved the readme it is this directory)
 
-# troubleshooting on windows
+## troubleshooting on windows
 If it doesn't work have you tried starting WSL?
 If it still doesn't work have you tried starting Dockerdesktop?
 
@@ -11,13 +11,13 @@ If you are on mac or linux and it doesn't work conact a docker expert, we ran th
 
 If it still doesn't work you can watch this video of it working: https://youtu.be/liQUAuYwMUY
 
-## Where to find an SQL statement
+# Where to find an SQL statement
 The easiest place to find an SQL statement is in database.py, for example there is one on line 41
 
-## Where to find a regular expression
+# Where to find a regular expression
 There is a regular expression in models/team.py on line 13
 
-## Features
+# Features
 You can search for teams on the teams page
 You can see stats about the teams
 If you click on a team you can see the players for the team and some stats about them
