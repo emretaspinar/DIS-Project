@@ -1,4 +1,4 @@
-# How to run
+# How to compile/run
 1. use docker-compose-up in the directory with the Dockerfile (if you haven't moved the readme it is this directory)
 
 ## troubleshooting on windows
