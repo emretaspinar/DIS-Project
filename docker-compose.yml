@@ -15,6 +15,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: '123'
+      #It only works if the database is called todo. No, changing the line below does not help, at least it didn't when we tried it
       POSTGRES_DB: todo
   # Our app container
   web:
