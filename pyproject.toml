@@ -1,11 +1,10 @@
 [project]
 name = "todos"
 version = "1.0.0"
-description = "A minimal todo application for the DIS 2025 course."
+description = "A minimal soccer stats application for the DIS 2025 course."
 dependencies = [
     "flask (==3.1.1)",
     "psycopg2 (==2.9.10)",
-    "pandas (==2.2.3)",
 ]
 
 [tool.setuptools]
